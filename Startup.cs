@@ -1,6 +1,7 @@
 using System;
 using System.Linq;
 using PressAgency.Data;
+using PressAgency.Models;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
@@ -27,7 +28,7 @@ public class Startup {
     services.AddDbContext<PressAgencyContext>(
         options => options.UseNpgsql(connectionString));
 
-    services.AddIdentity<IdentityUser, IdentityRole>()
+    services.AddIdentity<ApplicationUser, IdentityRole>()
         .AddEntityFrameworkStores<PressAgencyContext>();
 
     services.Configure<IdentityOptions>(options => {

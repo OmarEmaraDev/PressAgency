@@ -20,6 +20,12 @@ namespace PressAgency.ViewModels {
     public string Email { get; set; }
 
     [Required]
+    [Display(Name = "Phone Number")]
+    [DataType(DataType.PhoneNumber)]
+    [RegularExpression(@"^01\d-\d{4}-\d{4}$", ErrorMessage = "Phone number has be in the form 01x-xxxx-xxxx.")]
+    public string PhoneNumber { get; set; }
+
+    [Required]
     [DataType(DataType.Password)]
     [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 6)]
     public string Password { get; set; }

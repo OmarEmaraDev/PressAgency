@@ -6,16 +6,17 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using PressAgency.ViewModels;
+using PressAgency.Models;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 
 namespace PressAgency.Controllers {
   public class AccountController : Controller {
 
-    private readonly SignInManager<IdentityUser> _signInManager;
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<ApplicationUser> _userManager;
 
-    public AccountController(UserManager<IdentityUser> userManager,
-                             SignInManager<IdentityUser> signInManager) {
+    public AccountController(UserManager<ApplicationUser> userManager,
+                             SignInManager<ApplicationUser> signInManager) {
       _signInManager = signInManager;
       _userManager = userManager;
     }
@@ -50,10 +51,13 @@ namespace PressAgency.Controllers {
         return Json(validation);
       }
 
-      IdentityUser identityUser =
-          new IdentityUser { UserName = user.UserName, Email = user.Email };
+      ApplicationUser appUser =
+          new ApplicationUser { FirstName = user.FirstName,
+                                LastName = user.LastName,
+                                UserName = user.UserName, Email = user.Email,
+                                PhoneNumber = user.PhoneNumber };
       IdentityResult identityResult =
-          await _userManager.CreateAsync(identityUser, user.Password);
+          await _userManager.CreateAsync(appUser, user.Password);
 
       if (!identityResult.Succeeded) {
         validation.Valid = false;

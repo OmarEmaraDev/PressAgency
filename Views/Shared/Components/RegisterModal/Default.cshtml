@@ -1,4 +1,3 @@
-@using PressAgency.ViewModels
 @model RegisterViewModel
 
 <div class="modal fade" id="registerModal" tabindex="-1" aria-labelledby="registerModalLabel" aria-hidden="true">
@@ -38,6 +37,13 @@
             </label>
             <input asp-for="Email" class="form-control" />
             <span asp-validation-for="Email" class="text-danger"></span>
+          </div>
+          <div class="mb-3">
+            <label asp-for="PhoneNumber">
+              @Html.DisplayNameFor(model => model.PhoneNumber)
+            </label>
+            <input asp-for="PhoneNumber" class="form-control" />
+            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
           </div>
           <div class="mb-3">
             <label asp-for="Password">
