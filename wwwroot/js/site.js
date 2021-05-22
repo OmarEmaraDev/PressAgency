@@ -35,10 +35,21 @@ function invokeAccountFormAsync(formID, validationContainerID) {
   });
 }
 
-invokeAccountFormAsync("#loginForm", "#loginFormValidationSummary");
-invokeAccountFormAsync("#registerForm", "#registerFormValidationSummary");
+function showModalForAnchor(modalID) {
+  if (window.location.href.includes(modalID)) {
+    $(modalID).modal('show');
+  }
+}
 
 jQuery.ajaxSetup({
   beforeSend : function() { $(".spinner-border").show(); },
   complete : function() { $(".spinner-border").hide(); },
+});
+
+$(document).ready(function() {
+  showModalForAnchor("#loginModal");
+  showModalForAnchor("#registerModal");
+
+  invokeAccountFormAsync("#loginForm", "#loginFormValidationSummary");
+  invokeAccountFormAsync("#registerForm", "#registerFormValidationSummary");
 });

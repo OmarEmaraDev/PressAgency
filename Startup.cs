@@ -2,7 +2,10 @@ using System;
 using System.Linq;
 using PressAgency.Data;
 using PressAgency.Models;
+using PressAgency.Services;
+using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Hosting;
@@ -11,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace PressAgency {
@@ -29,7 +33,11 @@ public class Startup {
         options => options.UseNpgsql(connectionString));
 
     services.AddIdentity<ApplicationUser, IdentityRole>()
+        .AddRoles<IdentityRole>()
         .AddEntityFrameworkStores<PressAgencyContext>();
+
+    services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>,
+                       RoleUserClaimsPrincipalFactory>();
 
     services.Configure<IdentityOptions>(options => {
       options.Password.RequireDigit = false;
@@ -38,6 +46,23 @@ public class Startup {
       options.Password.RequireUppercase = false;
       options.Password.RequiredLength = 6;
       options.Password.RequiredUniqueChars = 1;
+    });
+
+    services.ConfigureApplicationCookie(options => {
+      options.LoginPath = "/Wall/Index/#loginModal";
+      options.AccessDeniedPath = "/";
+    });
+
+    services.AddAuthorization(options => {
+      options.FallbackPolicy =
+          new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+
+      options.AddPolicy(
+          "AdminOnly", policy => policy.RequireClaim(ClaimTypes.Role, "Admin"));
+      options.AddPolicy("EditorOnly", policy => policy.RequireClaim(
+                                          ClaimTypes.Role, "Editor"));
+      options.AddPolicy("ViewerOnly", policy => policy.RequireClaim(
+                                          ClaimTypes.Role, "Viewer"));
     });
   }
 

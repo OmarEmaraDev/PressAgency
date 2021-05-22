@@ -22,6 +22,7 @@ namespace PressAgency.Controllers {
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<JsonResult> Login(LoginViewModel user) {
       FormValidationViewModel validation = new FormValidationViewModel();
       if (!ModelState.IsValid) {
@@ -43,6 +44,7 @@ namespace PressAgency.Controllers {
     }
 
     [HttpPost]
+    [AllowAnonymous]
     public async Task<JsonResult> Register(RegisterViewModel user) {
       FormValidationViewModel validation = new FormValidationViewModel();
       if (!ModelState.IsValid) {
@@ -51,11 +53,12 @@ namespace PressAgency.Controllers {
         return Json(validation);
       }
 
-      ApplicationUser appUser =
-          new ApplicationUser { FirstName = user.FirstName,
-                                LastName = user.LastName,
-                                UserName = user.UserName, Email = user.Email,
-                                PhoneNumber = user.PhoneNumber };
+      UserRole role = user.IsEditor ? UserRole.Editor : UserRole.Viewer;
+      ApplicationUser appUser = new ApplicationUser {
+        FirstName = user.FirstName,     LastName = user.LastName,
+        UserName = user.UserName,       Email = user.Email,
+        PhoneNumber = user.PhoneNumber, Role = role,
+      };
       IdentityResult identityResult =
           await _userManager.CreateAsync(appUser, user.Password);
 

@@ -59,6 +59,12 @@
             <input asp-for="ConfirmPassword" class="form-control" />
             <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
           </div>
+          <div class="mb-3 form-check">
+            <input class="form-check-input" asp-for="IsEditor">
+            <label class="form-check-label" asp-for="IsEditor">
+              @Html.DisplayNameFor(model => model.IsEditor)
+            </label>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
