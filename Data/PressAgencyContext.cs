@@ -8,6 +8,8 @@ namespace PressAgency.Data {
     public PressAgencyContext(DbContextOptions<PressAgencyContext> options)
         : base(options) {}
 
+    public DbSet<Article> Article { get; set; }
+
     protected override void OnModelCreating(ModelBuilder builder) {
       base.OnModelCreating(builder);
     }
