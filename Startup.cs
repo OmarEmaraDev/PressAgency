@@ -49,7 +49,7 @@ public class Startup {
     });
 
     services.ConfigureApplicationCookie(options => {
-      options.LoginPath = "/Wall/Index/#loginModal";
+      options.LoginPath = "/Wall/loginModal/";
       options.AccessDeniedPath = "/";
     });
 

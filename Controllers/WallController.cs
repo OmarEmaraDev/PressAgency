@@ -14,6 +14,9 @@ namespace PressAgency.Controllers {
     [AllowAnonymous]
     public IActionResult Index() { return View(); }
 
+    [AllowAnonymous]
+    public IActionResult LoginModal() { return Redirect("/#loginModal"); }
+
     [Authorize(Policy = "ViewerOnly")]
     public IActionResult Saved() { return View(); }
   }
