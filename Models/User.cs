@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Identity;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace PressAgency.Models {
   public enum UserRole { Viewer, Editor, Admin }
@@ -17,13 +18,16 @@ namespace PressAgency.Models {
 
     public UserRole Role { get; set; }
 
-    public List<Article> Articles { get; set; }
+    [InverseProperty("Author")]
+    public List<Article> AuthoredArticles { get; set; }
 
     public List<Like> Likes { get; set; }
 
     public List<Dislike> Dislikes { get; set; }
 
     public List<Question> Questions { get; set; }
+
+    public ICollection<Article> SavedArticles { get; set; }
     /* clang-format on */
   }
 }

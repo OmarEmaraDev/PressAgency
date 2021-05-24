@@ -23,5 +23,7 @@ namespace PressAgency.Models {
     public List<Dislike> Dislikes { get; set; }
 
     public List<Question> Questions { get; set; }
+
+    public ICollection<ApplicationUser> Savers { get; set; }
   }
 }
