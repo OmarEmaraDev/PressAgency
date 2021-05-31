@@ -1,0 +1,14 @@
+@model IEnumerable<ViewModels.Dashboard>
+
+    <table class = "table"><thead><tr><th scope = "col"> #</ th>
+    <th scope = "col"> Name</ th></ tr></ thead>
+        <tbody> 
+            @foreach (UsersViewModel user in Model) 
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => user.Name)</td>
+		    <td><a asp-action="Delete" asp-route-id="@user.Id">Delete</a></td>
+                </tr>
+            }
+        </tbody>
+    </table>
