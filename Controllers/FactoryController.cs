@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.IO;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Hosting;
@@ -64,6 +65,13 @@ namespace PressAgency.Controllers {
       await _context.SaveChangesAsync();
 
       return RedirectToAction("MyArticles");
+    }
+
+    public async Task<IActionResult> MyArticles() {
+      ApplicationUser user = await _userManager.GetUserAsync(User);
+      return View(await _context.Articles.Where(a => a.Author == user)
+                      .Include(a => a.Author)
+                      .ToListAsync());
     }
   }
 }

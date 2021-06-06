@@ -1,0 +1,28 @@
+@{
+  ViewData["Title"] = "My Articles";
+}
+@model IEnumerable<Article>
+
+<div class="row row-cols-1 row-cols-md-3 g-4">
+  @foreach (Article article in Model) {
+    <div class="col">
+      <div class="card">
+        <div class="card-header">
+          By @article.Author.FirstName @article.Author.LastName
+          <small class="text-muted d-block">
+            In @article.Type
+          </small>
+        </div>
+        <img src="/images/@article.Image" class="card-img-top">
+        <div class="card-body">
+          <h5 class="card-title">@article.Title</h5>
+        </div>
+        <div class="card-footer">
+          <small class="text-muted">Published @article.CreationDate.</small>
+          <small class="text-muted float-end">@article.NumberOfViews Views.</small>
+        </div>
+        <a class="stretched-link" asp-controller="Wall" asp-action="Article" asp-route-id="@article.Id"></a>
+      </div>
+    </div>
+  }
+</div>
