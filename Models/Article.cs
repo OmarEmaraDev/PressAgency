@@ -9,11 +9,11 @@ namespace PressAgency.Models {
     public int Id { get; set; }
     public string Title { get; set; }
     public string Body { get; set; }
-    public DateTime CreationDate { get; set; }
+    public DateTime CreationDate { get; set; } = DateTime.UtcNow;
     public ArticleType Type { get; set; }
-    public int NumberOfViews { get; set; }
+    public int NumberOfViews { get; set; } = 0;
     public string Image { get; set; }
-    public ArticleStatus Status { get; set; }
+    public ArticleStatus Status { get; set; } = ArticleStatus.Pending;
 
     public string AuthorID { get; set; }
     public ApplicationUser Author { get; set; }

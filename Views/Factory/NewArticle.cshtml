@@ -1,0 +1,40 @@
+@{
+  ViewData["Title"] = "New Article";
+}
+@model NewArticleViewModel
+
+<form enctype="multipart/form-data" asp-controller="Factory" asp-action="NewArticle" method="post" id="newArticleForm">
+  <div asp-validation-summary="All" class="text-danger" id="newArticleFormValidationSummary"></div>
+  <div class="mb-3">
+    <label asp-for="Type">
+      @Html.DisplayNameFor(model => model.Type)
+    </label>
+    @Html.DropDownListFor(model => model.Type,
+                          new SelectList(Enum.GetValues(typeof(ArticleType))),
+                          new { @class = "form-select" })
+    <span asp-validation-for="Title" class="text-danger"></span>
+  </div>
+  <div class="mb-3">
+    <label asp-for="Title">
+      @Html.DisplayNameFor(model => model.Title)
+    </label>
+    <input asp-for="Title" class="form-control" />
+    <span asp-validation-for="Title" class="text-danger"></span>
+  </div>
+  <div class="mb-3">
+    <label asp-for="Body">
+      @Html.DisplayNameFor(model => model.Body)
+    </label>
+    <textarea asp-for="Body" class="form-control" style="height: 50vh"></textarea>
+    <span asp-validation-for="Body" class="text-danger"></span>
+    <div id="bodyHelp" class="form-text">Markdown is allowed.</div>
+  </div>
+  <div class="mb-3">
+    <label asp-for="CoverImage">
+      @Html.DisplayNameFor(model => model.CoverImage)
+    </label>
+    <input type="file" accept=".png" asp-for="CoverImage" class="form-control" />
+    <span asp-validation-for="CoverImage" class="text-danger"></span>
+  </div>
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>

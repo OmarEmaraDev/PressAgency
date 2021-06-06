@@ -2,38 +2,46 @@
   Layout = "_Layout";
 }
 
-<div class = "d-flex flex-column flex-shrink-0 p-3 text-white bg-dark" style = "width: 280px;">
-  <ul class = "nav nav-pills flex-column mb-auto">
-    <li>
-      @if (ViewData["Title"].ToString() == "Profile") {
-        <a href = "#" class = "nav-link active" aria-current = "page">Profile</a>
-      } else {
-        <a class = "nav-link text-white" asp-controller = "Factory" asp-action = "Profile">Profile</a>
-      }
-    </li>
-    <li>
-      @if (ViewData["Title"].ToString() == "New Article") {
-        <a href = "#" class = "nav-link active" aria-current = "page">New Article</a>
-      } else {
-        <a class="nav-link text-white" asp-controller="Factory" asp-action="Index">New Article</a>
-      }
-    </li>
-    <li>
-      @if (ViewData["Title"].ToString() == "My Articles") {
-        <a href = "#" class = "nav-link active" aria-current = "page">My Articles</a>
-      } else {
-        <a class="nav-link text-white" asp-controller="Factory" asp-action="MyArticles">My Articles</a>
-      }
-    </li>
-    <li>
-      @if (ViewData["Title"].ToString() == "Received Questions") {
-        <a href = "#" class = "nav-link active" aria-current = "page">Received Questions</a>
-      } else {
-        <a class="nav-link text-white" asp-controller="Factory" asp-action="ReceivedQuestions">Received Questions</a>
-      }
-    </li>
-  </ul>
+<div class="container-fluid p-0">
+  <div class="row g-0">
+    <div class="col-2">
+      <div class = "d-flex flex-column flex-shrink-0 p-3 text-white bg-dark h-100">
+        <ul class = "nav nav-pills flex-column mb-auto">
+          <li>
+            @if (ViewData["Title"].ToString() == "Profile") {
+              <a href = "#" class = "nav-link active" aria-current = "page">Profile</a>
+            } else {
+              <a class = "nav-link text-white" asp-controller = "Factory" asp-action = "Profile">Profile</a>
+            }
+          </li>
+          <li>
+            @if (ViewData["Title"].ToString() == "New Article") {
+              <a href = "#" class = "nav-link active" aria-current = "page">New Article</a>
+            } else {
+              <a class="nav-link text-white" asp-controller="Factory" asp-action="Index">New Article</a>
+            }
+          </li>
+          <li>
+            @if (ViewData["Title"].ToString() == "My Articles") {
+              <a href = "#" class = "nav-link active" aria-current = "page">My Articles</a>
+            } else {
+              <a class="nav-link text-white" asp-controller="Factory" asp-action="MyArticles">My Articles</a>
+            }
+          </li>
+          <li>
+            @if (ViewData["Title"].ToString() == "Received Questions") {
+              <a href = "#" class = "nav-link active" aria-current = "page">Received Questions</a>
+            } else {
+              <a class="nav-link text-white" asp-controller="Factory" asp-action="ReceivedQuestions">Received Questions</a>
+            }
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="col p-3">
+      @RenderBody()
+    </div>
+  </div>
 </div>
 
-@RenderBody()
 

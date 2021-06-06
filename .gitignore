@@ -449,3 +449,6 @@ $RECYCLE.BIN/
 
 # Migrations
 Migrations
+
+# wwwroot
+wwwroot/images/
