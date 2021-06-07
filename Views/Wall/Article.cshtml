@@ -1,0 +1,77 @@
+@using Markdig
+@model ArticleViewModel
+@{
+  Article article = Model.Article;
+  ViewData["Title"] = article.Title;
+}
+
+<div class="container">
+  <div class="card m-5">
+    <div class="card-header">
+      <div class="container">
+        <div class="row">
+          <div class="col">
+            By @article.Author.FirstName @article.Author.LastName
+            <small class="text-muted d-block">
+              In @article.Type
+            </small>
+          </div>
+          @if (article.Author.Role == UserRole.Editor) {
+            <div class="col">
+              <div class="btn-toolbar float-end">
+                @if (Model.IsLiked) {
+                  <form asp-controller="Wall" asp-action="Unlike" asp-route-id="@article.Id" method="post">
+                    <button type="submit" class="btn btn-outline-primary m-1">
+                      <i class="bi bi-hand-thumbs-up-fill"></i>
+                    </button>
+                  </form>
+                } else {
+                  <form asp-controller="Wall" asp-action="Like" asp-route-id="@article.Id" method="post">
+                    <button type="submit" class="btn btn-outline-primary m-1">
+                      <i class="bi bi-hand-thumbs-up"></i>
+                    </button>
+                  </form>
+                }
+                @if (Model.IsDisliked) {
+                  <form asp-controller="Wall" asp-action="Undislike" asp-route-id="@article.Id" method="post">
+                    <button type="submit" class="btn btn-outline-primary m-1">
+                      <i class="bi bi-hand-thumbs-down-fill"></i>
+                    </button>
+                  </form>
+                } else {
+                  <form asp-controller="Wall" asp-action="Dislike" asp-route-id="@article.Id" method="post">
+                    <button type="submit" class="btn btn-outline-primary m-1">
+                      <i class="bi bi-hand-thumbs-down"></i>
+                    </button>
+                  </form>
+                }
+                @if (Model.IsSaved) {
+                  <form asp-controller="Wall" asp-action="Unsave" asp-route-id="@article.Id" method="post">
+                    <button type="submit" class="btn btn-outline-primary m-1">
+                      <i class="bi bi-star-fill"></i>
+                    </button>
+                  </form>
+                } else {
+                  <form asp-controller="Wall" asp-action="Save" asp-route-id="@article.Id" method="post">
+                    <button type="submit" class="btn btn-outline-primary m-1">
+                      <i class="bi bi-star"></i>
+                    </button>
+                  </form>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+    <img src="/images/@article.Image" class="card-img-top">
+    <div class="card-body">
+      <h1 class="card-title text-center">@article.Title</h5>
+      @Html.Raw(Markdown.ToHtml(article.Body))
+    </div>
+    <div class="card-footer">
+      <small class="text-muted">Published @article.CreationDate.</small>
+      <small class="text-muted float-end">@article.NumberOfViews Views.</small>
+    </div>
+  </div>
+</div>

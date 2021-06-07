@@ -27,7 +27,7 @@ namespace PressAgency.Models {
 
     public List<Question> Questions { get; set; }
 
-    public ICollection<Article> SavedArticles { get; set; }
+    public List<Save> Saves { get; set; }
     /* clang-format on */
   }
 }

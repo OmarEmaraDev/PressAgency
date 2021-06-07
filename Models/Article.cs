@@ -24,6 +24,6 @@ namespace PressAgency.Models {
 
     public List<Question> Questions { get; set; }
 
-    public ICollection<ApplicationUser> Savers { get; set; }
+    public List<Save> Saves { get; set; }
   }
 }

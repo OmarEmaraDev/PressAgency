@@ -9,6 +9,10 @@ namespace PressAgency.Data {
         : base(options) {}
 
     public DbSet<Article> Articles { get; set; }
+    public DbSet<Like> Likes { get; set; }
+    public DbSet<Dislike> Dislikes { get; set; }
+    public DbSet<Question> Questions { get; set; }
+    public DbSet<Save> Saves { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder) {
       base.OnModelCreating(builder);
