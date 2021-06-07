@@ -3,6 +3,7 @@
 @{
   Article article = Model.Article;
   ViewData["Title"] = article.Title;
+  Layout = "_Layout";
 }
 
 <div class="container">
@@ -16,7 +17,7 @@
               In @article.Type
             </small>
           </div>
-          @if (article.Author.Role == UserRole.Editor) {
+          @if (Model.AllowActions) {
             <div class="col">
               <div class="btn-toolbar float-end">
                 @if (Model.IsLiked) {

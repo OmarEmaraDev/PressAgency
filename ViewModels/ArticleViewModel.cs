@@ -9,5 +9,7 @@ namespace PressAgency.ViewModels {
     public bool IsDisliked { get; set; }
 
     public bool IsSaved { get; set; }
+
+    public bool AllowActions { get; set; }
   }
 }

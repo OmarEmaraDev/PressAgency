@@ -2,6 +2,9 @@
   Layout = "_Layout";
 }
 
-<!--Insert Wall Layout Content Here -->
-
-@RenderBody()
+<div class="p-5">
+  <form asp-controller="Wall" asp-action="Index" method="get" class="w-50 m-auto pb-5">
+    <input name="SearchString" type="search" class="form-control" placeholder="Search..." aria-label="Search">
+  </form>
+  @RenderBody()
+</div>

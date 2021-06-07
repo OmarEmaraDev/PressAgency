@@ -25,13 +25,40 @@ namespace PressAgency.Controllers {
     }
 
     [AllowAnonymous]
-    public IActionResult Index() { return View(); }
+    public async Task<IActionResult> Index(string searchString) {
+      if (String.IsNullOrEmpty(searchString)) {
+        return View(
+            await _context.Articles.Include(a => a.Author).ToListAsync());
+      }
+      return View(await _context.Articles
+                      .Where(a => a.Title.Contains(searchString) ||
+                                  a.Author.FirstName.Contains(searchString) ||
+                                  a.Author.LastName.Contains(searchString))
+                      .Include(a => a.Author)
+                      .ToListAsync());
+    }
 
     [AllowAnonymous]
     public IActionResult LoginModal() { return Redirect("/#loginModal"); }
 
     [Authorize(Policy = "ViewerOnly")]
-    public IActionResult Saved() { return View(); }
+    public async Task<IActionResult> Saved(string searchString) {
+      ApplicationUser user = await _userManager.GetUserAsync(User);
+
+      if (String.IsNullOrEmpty(searchString)) {
+        return View(
+            await _context.Articles.Where(a => a.Saves.Any(s => s.User == user))
+                .Include(a => a.Author)
+                .ToListAsync());
+      }
+      return View(await _context.Articles
+                      .Where(a => a.Saves.Any(s => s.User == user) &&
+                                  (a.Title.Contains(searchString) ||
+                                   a.Author.FirstName.Contains(searchString) ||
+                                   a.Author.LastName.Contains(searchString)))
+                      .Include(a => a.Author)
+                      .ToListAsync());
+    }
 
     [AllowAnonymous]
     public async Task<IActionResult> Article(int? id) {
@@ -50,20 +77,28 @@ namespace PressAgency.Controllers {
 
       ApplicationUser user = await _userManager.GetUserAsync(User);
 
-      Like like = await _context.Likes.FirstOrDefaultAsync(
-          l => l.ArticleId == article.Id && l.UserId == user.Id);
-      Dislike dislike = await _context.Dislikes.FirstOrDefaultAsync(
-          l => l.ArticleId == article.Id && l.UserId == user.Id);
-      Save save = await _context.Saves.FirstOrDefaultAsync(
-          l => l.ArticleId == article.Id && l.UserId == user.Id);
+      bool isLiked = false;
+      bool isDisliked = false;
+      bool isSaved = false;
+      if (user != null) {
+        Like like = await _context.Likes.FirstOrDefaultAsync(
+            l => l.ArticleId == article.Id && l.UserId == user.Id);
+        Dislike dislike = await _context.Dislikes.FirstOrDefaultAsync(
+            l => l.ArticleId == article.Id && l.UserId == user.Id);
+        Save save = await _context.Saves.FirstOrDefaultAsync(
+            l => l.ArticleId == article.Id && l.UserId == user.Id);
 
-      bool isLiked = like != null;
-      bool isDisliked = dislike != null;
-      bool isSaved = save != null;
+        isLiked = like != null;
+        isDisliked = dislike != null;
+        isSaved = save != null;
+      }
+
+      bool allowActions = user != null && user.Role == UserRole.Viewer;
 
       ArticleViewModel articleViewModel =
           new ArticleViewModel { Article = article, IsLiked = isLiked,
-                                 IsDisliked = isDisliked, IsSaved = isSaved };
+                                 IsDisliked = isDisliked, IsSaved = isSaved,
+                                 AllowActions = allowActions };
 
       return View(articleViewModel);
     }

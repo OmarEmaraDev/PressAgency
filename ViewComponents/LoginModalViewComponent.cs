@@ -1,4 +1,5 @@
 using PressAgency.Models;
+using PressAgency.ViewModels;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
@@ -14,7 +15,8 @@ public class LoginModalViewComponent : ViewComponent {
     if (_signInManager.IsSignedIn(HttpContext.User)) {
       return Content(string.Empty);
     } else {
-      return View();
+      LoginViewModel model = new LoginViewModel();
+      return View(model);
     }
   }
 }
